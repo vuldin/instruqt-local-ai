@@ -1,0 +1,33 @@
+sudo apt-get update
+
+sudo apt install vim -y
+sudo apt install unzip -y
+
+echo '{"registry-mirrors": ["https://mirror.gcr.io"]}' > /etc/docker/daemon.json
+echo 'DOCKER_OPTS="${DOCKER_OPTS} --registry-mirror=https://mirror.gcr.io"' >> /etc/default/docker
+sudo service docker restart
+
+curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+sudo apt install -y nodejs
+
+
+docker pull docker.redpanda.com/redpandadata/redpanda:v24.2.4
+docker pull docker.redpanda.com/redpandadata/console:v2.7.2
+
+# Install rpk
+#curl -LO https://github.com/redpanda-data/redpanda/releases/latest/download/rpk-linux-amd64.zip
+curl -LO https://github.com/redpanda-data/redpanda/releases/download/v24.2.4/rpk-linux-amd64.zip
+mkdir -p /root/.local/bin
+unzip rpk-linux-amd64.zip -d /root/.local/bin/
+
+cat <<EOF > /root/.bash_profile
+export PATH="/root/.local/bin:$PATH"
+EOF
+
+
+sudo apt install -y software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa -y
+sudo apt install -y python3.12 python3.12-venv python3.12-dev
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
+sudo update-alternatives --config python3
+curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12

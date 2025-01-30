@@ -1,0 +1,26 @@
+slug: local-ai
+id: cxa57ndn0xnb
+title: Local AI
+teaser: Some quick demo for showcasing Redpanda Connect at Current 2024
+description: |
+  Workshop for StreamFest
+icon: ""
+tags: []
+owner: redpanda
+developers:
+- josh@redpanda.com
+show_timer: true
+skipping_enabled: true
+timelimit: 21600
+lab_config:
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+  default_layout: AssignmentRight
+  default_layout_sidebar_size: 50
+checksum: "5492814495565814505"
+enhanced_loading: false

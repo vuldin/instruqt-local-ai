@@ -1,0 +1,3 @@
+#!/bin/sh
+git clone https://github.com/weimeilin79/streamfestworkshop.git
+

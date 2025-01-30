@@ -1,0 +1,5 @@
+version: "3"
+virtualmachines:
+- name: redpanda
+  image: instruqt/docker-2010
+  machine_type: n1-standard-4
