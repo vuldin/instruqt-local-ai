@@ -1,3 +1,24 @@
-#!/bin/sh
-git clone https://github.com/weimeilin79/streamfestworkshop.git
+#!/bin/bash
+set -euxo pipefail
+
+# start containers
+cd workspace
+docker-compose up -d
+
+# pull models doesn't work
+docker exec -i ollama ollama pull llama3.2
+docker exec -i ollama ollama pull nomic-embed-text
+
+# create qdrant collection
+curl -X PUT "http://localhost:6333/collections/court-cases" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "vectors": {
+             "size": 768,
+             "distance": "Cosine"
+           }
+         }'
+
+# create rpcn config
+echo RP_BOOTSTRAP_SERVER="redpanda:19092"  >> .rpenv
 

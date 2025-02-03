@@ -1,9 +1,10 @@
 slug: local-ai
 id: cxa57ndn0xnb
 title: Local AI
-teaser: Some quick demo for showcasing Redpanda Connect at Current 2024
+teaser: Demo showing local AI models handling summary/embedding generation, answer
+  questions, etc.
 description: |
-  Workshop for StreamFest
+  Local AI on Redpanda Connect
 icon: ""
 tags: []
 owner: redpanda
@@ -22,5 +23,5 @@ lab_config:
   hideStopButton: false
   default_layout: AssignmentRight
   default_layout_sidebar_size: 50
-checksum: "5492814495565814505"
+checksum: "16165291251315880315"
 enhanced_loading: false

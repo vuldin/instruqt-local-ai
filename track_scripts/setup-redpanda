@@ -1,33 +1,70 @@
-sudo apt-get update
+#!/bin/bash
+set -euxo pipefail
 
-sudo apt install vim -y
-sudo apt install unzip -y
+apt-get update
+add-apt-repository ppa:deadsnakes/ppa -y
+#apt install vim unzip software-properties-common python3.12 python3.12-venv python3.12-dev -y
+apt install vim unzip -y
+#update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
+git clone https://github.com/vuldin/local-ai-files.git workspace
+#wget https://github.com/ollama/ollama/releases/download/v0.5.7/ollama-linux-amd64.tgz
+#tar xzf ollama-linux-amd64.tgz
+#cp bin/ollama /usr/bin
+#cp -r lib/ollama /usr/lib
+
+#cat <<EOF > /etc/systemd/system/ollama.service
+#[Unit]
+#Description=Ollama Service
+#After=network-online.target
+#
+#[Service]
+#ExecStart=/usr/bin/ollama serve
+#User=ollama
+#Group=ollama
+#Restart=always
+#RestartSec=3
+#Environment="PATH=$PATH"
+#Environment="GIN_MODE=release"
+#Environment="OLLAMA_NUM_THREADS=8"
+#Environment="OLLAMA_KEEP_ALIVE=-1"
+#
+#[Install]
+#WantedBy=default.target
+#EOF
+
+#useradd -r -s /bin/false -U -m -d /usr/share/ollama ollama
+#usermod -a -G ollama $(whoami)
+#systemctl daemon-reload
+#systemctl enable ollama
+#systemctl start ollama
+#ollama pull llama3.2
+#curl -s http://localhost:11434/api/chat -d '{"model": "llama3.2"}'
 
 echo '{"registry-mirrors": ["https://mirror.gcr.io"]}' > /etc/docker/daemon.json
 echo 'DOCKER_OPTS="${DOCKER_OPTS} --registry-mirror=https://mirror.gcr.io"' >> /etc/default/docker
 sudo service docker restart
 
-curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
-sudo apt install -y nodejs
+#curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+#sudo apt install -y nodejs
 
+docker pull docker.redpanda.com/redpandadata/redpanda:v24.3.4
+docker pull docker.redpanda.com/redpandadata/console:v2.8.2
+docker pull qdrant/qdrant:v1.13.2
+docker pull ollama/ollama:0.5.7
+docker pull vuldin/local-rag-ui
 
-docker pull docker.redpanda.com/redpandadata/redpanda:v24.2.4
-docker pull docker.redpanda.com/redpandadata/console:v2.7.2
-
-# Install rpk
-#curl -LO https://github.com/redpanda-data/redpanda/releases/latest/download/rpk-linux-amd64.zip
+# install rpk
 curl -LO https://github.com/redpanda-data/redpanda/releases/download/v24.2.4/rpk-linux-amd64.zip
 mkdir -p /root/.local/bin
 unzip rpk-linux-amd64.zip -d /root/.local/bin/
-
 cat <<EOF > /root/.bash_profile
 export PATH="/root/.local/bin:$PATH"
 EOF
 
+# get temporary license
+curl -sLO https://gist.githubusercontent.com/vuldin/ba9b9ca7c90617809db4dc3160bb301a/raw/b7c4954fecea1a22483186ea1803041faf6cc356/redpanda.license
+mkdir /etc/redpanda
+cp redpanda.license /etc/redpanda
 
-sudo apt install -y software-properties-common
-sudo add-apt-repository ppa:deadsnakes/ppa -y
-sudo apt install -y python3.12 python3.12-venv python3.12-dev
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
-sudo update-alternatives --config python3
-curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12
+#curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12
+
