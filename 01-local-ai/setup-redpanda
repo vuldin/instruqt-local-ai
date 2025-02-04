@@ -1,8 +1,16 @@
 #!/bin/bash
 set -euxo pipefail
 
-# start containers
 cd workspace
+
+# create rpk profile
+source ~/.bash_profile
+rpk profile create local
+rpk profile set kafka_api.brokers=redpanda:19092,redpanda:29092,redpanda:39092
+rpk profile set admin_api.addresses=redpanda:19644,redpanda:29644,redpanda:39644
+rpk profile use local
+
+# start containers
 docker-compose up -d
 
 # pull models doesn't work
